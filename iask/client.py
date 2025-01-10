@@ -1,4 +1,4 @@
-from typing import Awaitable, Literal, Union, overload
+from typing import Awaitable, Union
 import aiohttp
 import lxml.html
 from ._internal import cache_find
@@ -6,14 +6,6 @@ from .typing import QueryType, ResponseStream
 
 
 class Client:
-    @overload
-    async def ask(
-        self, query: Union[QueryType, str], stream: Literal[False] = False
-    ) -> str: ...
-    @overload
-    async def ask(
-        self, query: Union[QueryType, str], stream: Literal[True]
-    ) -> ResponseStream: ...
     async def ask(
         self, query: Union[QueryType, str], stream: bool = False
     ) -> Awaitable[str | ResponseStream]:

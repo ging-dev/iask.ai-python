@@ -14,5 +14,5 @@ class QueryDict(TypedDict):
     options: Optional[OptionsType]
 
 
-QueryType = Union[QueryDict, str]
+QueryType = Union[QueryDict, dict]
 ResponseStream = AsyncIterator[str]

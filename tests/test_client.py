@@ -1,9 +1,9 @@
 import iask
 import pytest
+from iask import buffer
+
 
 @pytest.mark.asyncio
 async def test_client():
     client = iask.Client()
-    async for chunk in client.ask('Who is Yugi?'):
-        assert isinstance(chunk, str)
-        break
+    assert isinstance(await buffer(client.ask("Who is Yugi?")), str)

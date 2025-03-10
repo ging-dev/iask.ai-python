@@ -21,11 +21,13 @@ class Client:
                 ) as response:
                     etree = lxml.html.fromstring(await response.text())
                     phx_node = etree.xpath('//*[starts-with(@id, "phx-")]').pop()
-                    csrf_node = etree.xpath('//*[@name="csrf-token"]').pop()
+                    csrf_token = (
+                        etree.xpath('//*[@name="csrf-token"]').pop().get("content")
+                    )
                 async with session.ws_connect(
                     "/live/websocket",
                     params={
-                        "_csrf_token": csrf_node.get("content"),
+                        "_csrf_token": csrf_token,
                         "vsn": "2.0.0",
                     },
                 ) as wsResponse:
@@ -36,6 +38,7 @@ class Client:
                             f"lv:{phx_node.get('id')}",
                             "phx_join",
                             {
+                                "params": {"_csrf_token": csrf_token},
                                 "url": str(response.url),
                                 "session": phx_node.get("data-phx-session"),
                             },

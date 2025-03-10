@@ -8,7 +8,7 @@ def cache_find(diff: Union[dict, list]) -> Optional[str]:
         if isinstance(value, (list, dict)):
             if cache := cache_find(value):
                 return cache
-        if isinstance(value, str) and value.startswith("<p>"):
+        if isinstance(value, str) and value.startswith(("<p>", "<h1>")):
             return md(value).strip()
 
     return None
